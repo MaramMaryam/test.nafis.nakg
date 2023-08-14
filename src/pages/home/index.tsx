@@ -10,8 +10,8 @@ import EducationStep from 'src/views/pages/home/EducationStep'
 
 const Home = () => {
   return (
-    <Grid container spacing={6} >
-      <Grid item xs={12}>
+    <Grid container spacing={6}  >
+      <Grid item xs={12} mb={52}>
         <StepPersonalDetails />
         <CompeleteStep />
         <EducationStep />
