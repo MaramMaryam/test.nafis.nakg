@@ -163,7 +163,7 @@ const EducationStep = ({ allPosts, steps, isEdit, isLoading, onNext, }: any) => 
     const methods = useForm({
         resolver: yupResolver(schema),
         defaultValues,
-        mode: "all"
+        mode: "onChange"
     });
 
     const {

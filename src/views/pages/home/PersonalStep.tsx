@@ -39,15 +39,15 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
     }
 
     const schema = yup.object().shape({
-        email: yup.string().email().required(),
-        lastName: yup
-            .string()
-            .min(3, obj => showErrors('lastName', obj.value.length, obj.min))
-            .required(),
         firstName: yup
             .string()
-            .min(3, obj => showErrors('firstName', obj.value.length, obj.min))
-            .required()
+            .min(4, obj => showErrors('firstName', obj.value.length, obj.min))
+            .required(),
+        lastName: yup
+            .string()
+            .min(4, obj => showErrors('lastName', obj.value.length, obj.min))
+            .required(),
+        email: yup.string().email().required(),
     })
     const handleChange = (event: SelectChangeEvent<typeof maritalStatus>) => {
         const {
@@ -71,7 +71,7 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
     const methods = useForm({
         resolver: yupResolver(schema),
         defaultValues,
-        mode: "onChange"
+        mode: "onBlur"
     });
 
     const {
@@ -207,7 +207,7 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
                                 value: maritalStatus,
                                 onChange: (e: any) => handleChange(e as SelectChangeEvent<typeof maritalStatus>),
                                 renderValue: (selected: any) => (
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                                         {(selected as string[]).map(value => (
                                             <CustomChip rounded key={value} label={value} skin='light' />
                                         ))}

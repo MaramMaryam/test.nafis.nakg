@@ -7,21 +7,24 @@ interface RHFTextFieldProp {
   label?: string, disabled?: boolean, multiline?: boolean, minRows?: any, id?: any, defaultValue?: any
 };
 
-export default function RHFTextField({ name, onChange, value, placeholder, label, disabled, multiline, minRows, id,defaultValue, ...other }: RHFTextFieldProp) {
-  const { control, getValues, setValue, register,setError } = useFormContext();
+export default function RHFTextField({ name, onChange, value, placeholder, label, disabled, multiline, minRows, id, defaultValue, ...other }: RHFTextFieldProp) {
+  const { control, getValues, setValue, register, setError,formState: { errors } } = useFormContext();
 
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <CustomTextField 
-          label={label} id={value}  placeholder={placeholder} disabled={disabled} 
+        <CustomTextField
+          label={label} placeholder={placeholder} disabled={disabled}
           defaultValue={defaultValue}
           multiline={multiline} minRows={minRows} {...field} fullWidth
-          error={!!error} helperText={error?.message} {...other} 
+          error={!!errors[name]}
+          helperText={error?.message}
+          // error={!!error} helperText={error?.message} {...other}
         />
       )}
     />
   );
 }
+

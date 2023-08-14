@@ -41,20 +41,7 @@ function onDelete(id:any) {
     // delete row with id
     setRow(row.filter((row:any) => row.id !== id));
   }
-    // const onSubmit = async (compeleteData:any) => {
-    //     console.log(row,'compeleteData:',compeleteData,row, compeleteData.id)
-    //     compeleteData.id = nanoid(),
-    //     console.log(row,'compeleteData:',compeleteData,row, compeleteData.id)
-    //     const compeleteDatas={
-    //         ...compeleteData, 
-    //         id: nanoid()
-    //     }
-    //     console.log(compeleteDatas)
-    //     setCompeleteData(compeleteDatas)
-    //     setData((prev:any)=> [...prev, compeleteDatas] )
-    //     setRow((prev:any)=>[...prev, compeleteDatas]); 
-    //     setRowId((prev:any)=>compeleteDatas.id)
-    // };
+   
 
     const renderDelete = (params?:any) => {
 
@@ -187,7 +174,7 @@ function onDelete(id:any) {
     const methods = useForm({
         resolver: yupResolver(schema),
         defaultValues,
-        mode: "all"
+        mode: "onBlur"
     });
 
     const {
