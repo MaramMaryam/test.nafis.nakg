@@ -215,7 +215,7 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
                                 )
                             }}>
                                 {maritalStatusArray.map((maritalStatus: any) => (
-                                    <MenuItem key={maritalStatus} value={maritalStatus}>
+                                    <MenuItem key={maritalStatus} value={maritalStatus} sx={{ flexDirection: 'row-reverse' }}>
                                         {maritalStatus}
                                     </MenuItem>
                                 ))}
