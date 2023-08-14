@@ -25,6 +25,7 @@ export default function RHFSelect({ name, children, defaultValue, onSelect, onCl
             render={({ field, fieldState: { error, } }) => (
                 <CustomTextField sx={{
                     '& .css-22rpjl-MuiSvgIcon-root-MuiSelect-icon': { position: 'relative', marginLeft: 2 },
+                    '& .css-1xwwuad': { position: 'relative' },
                     '& .MuiSvgIcon-root .MuiSvgIcon-fontSizeMedium .MuiSelect-icon .MuiSelect-iconFilled .css-22rpjl-MuiSvgIcon-root-MuiSelect-icon': { textAlign: 'left' },
                     '& .MuiSelect-iconOpen': { position: 'relative', marginLeft: 2, flexDirection: 'row-reverse' }
                 }} fullWidth

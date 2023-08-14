@@ -207,7 +207,7 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
                                 value: maritalStatus,
                                 onChange: (e: any) => handleChange(e as SelectChangeEvent<typeof maritalStatus>),
                                 renderValue: (selected: any) => (
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1}}>
                                         {(selected as string[]).map(value => (
                                             <CustomChip rounded key={value} label={value} skin='light' />
                                         ))}
