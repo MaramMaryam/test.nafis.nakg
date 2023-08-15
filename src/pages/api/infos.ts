@@ -12,11 +12,10 @@ const options: any = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 };
-// export default async function getServerSideProps(req: any, res: any) {
+
 export default async function handler(req: any, res: any) {
-    const last_update = new Date()
+
     if (req.method === 'POST') {
-        // const { step, data } = req.body;
         const {step, data} = req.body;
 
         const client = new MongoClient(uri, options);
@@ -35,13 +34,10 @@ export default async function handler(req: any, res: any) {
                     { upsert: true }
                 );
             }
-
             // res.json(myPost.ops[0]);
             // const savedData = await collection.find({})
             // res.status(201).json(savedData)
-            // console.log(savedData)
             res.status(200).json({ message: 'data data saved successfully' });
-
         } catch (error) {
             console.error('Error saving data:', error);
             res.status(500).json({ message: 'Internal server error' });

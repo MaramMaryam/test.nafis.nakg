@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 const UserContext = createContext({});
 
 export function UserWrapper({ children }: any, { props }: any) {
-    const [data, setData] = useState<any>([]);
+    const [data, setData] = useState<any>();
     const [activeStep, setActiveStep] = useState<number>(0)
     return (
         <UserContext.Provider

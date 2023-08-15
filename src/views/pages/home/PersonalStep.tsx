@@ -27,7 +27,7 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
     const [maritalStatus, setMaritalStatus] = useState<string[]>([])
     const [housingStatus, setHousingStatus] = useState<string[]>([])
     const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
-
+    console.log(data?.data?.step0, data?.data?.step0?.email)
     const showErrors = (field: string, valueLen: number, min: number) => {
         if (valueLen === 0) {
             return `${field} field is required`
@@ -59,13 +59,13 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
     const defaultValues = useMemo(
         () => ({
             last_update,
-            email: '',
-            lastName: '',
-            firstName: '',
-            code: '',
-            bitrthDate: '',
+            email: data?.data?.step0?.email ?? '',
+            lastName: data?.data?.step0?.lastName ?? '',
+            firstName: data?.data?.step0?.firstName ?? '',
+            code: data?.data?.step0?.code ?? '',
+            bitrthDate: data?.data?.step0?.bitrthDate ?? '',
         }),
-        []
+        [data?.data || data?.data?.step0]
     );
 
     const methods = useForm({
@@ -206,6 +206,7 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
                 <Typography sx={{ ml: 2, color: 'red' }}>🚀مشخصات فردی</Typography>
             </AccordionSummary>
             <AccordionDetails>
+
                 <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={4}>
                         <Grid item xs={12} md={6}>

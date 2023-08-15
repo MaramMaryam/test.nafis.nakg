@@ -30,12 +30,11 @@ import RHFDateField from 'src/@core/components/hook-form/RHFDateField'
 import { formatDate } from 'src/@core/utils/format'
 import format from 'date-fns/format';
 
-const EducationStep = ({ allPosts, steps, isEdit, isLoading, onNext, }: any) => {
+const EducationStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
     const theme = useTheme()
-    console.log(allPosts)
     const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
-    console.log(data?.data, data, steps)
-    const [edueDatas, setEduData] = useState<any>()
+    console.log(data?.data, data, data?.step1, steps)
+    const [edueDatas, setEduData] = useState<any>([])
     const [rowId, setRowId] = useState<any>()
     const gradeArray = ['دیپلم', 'فوق دیپلم', 'لیسانس', 'فوق لیسانس', 'دکتری و بالاتر']
     const fieldArray = ['نرم افزار', 'شبکه', 'آی تی', 'سخت افزار', 'برنامه نویسی']
@@ -175,7 +174,6 @@ const EducationStep = ({ allPosts, steps, isEdit, isLoading, onNext, }: any) => 
         console.log(row, 'edueData:', edueData, row, edueData.id)
         console.log(formatDate(edueData.fromDate))
 
-
         edueData.id = nanoid(),
             console.log(row, 'edueData:', edueData, row, edueData.id)
         const edueDatas = {
@@ -200,11 +198,65 @@ const EducationStep = ({ allPosts, steps, isEdit, isLoading, onNext, }: any) => 
         console.log(edueDatas)
 
         setEduData(edueDatas)
-        // setData((prev:any)=> [...prev, compeleteDatas] )
         setRow((prev: any) => [...prev, edueDatas]);
-        // setRowId((prev:any)=>compeleteDatas.id)
+        setData((prev: any) => (
+            { ...prev, step2: [...row.slice(1), edueDatas] }
+        ))
+        // setData((prev: any) => ({
+        //     ...prev, ...data,
+        //     step: 2,
+        //     step2: edueDatas,
+        //     last_update,
+        // }))
+        onNext()
     };
+    console.log(edueDatas.length)
+    const submits = async () => {
+        if (data?.step2?.length > 0) {
+            try {
+                await fetch("/api/infos", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        step: 2,
+                        // step1: data?.step1,
+                        data: data
+                    }),
+                })
+                // setData((prev: any) => ({
+                //     ...prev, ...data,
+                //     step: 2,
+                //     step2: edueDatas,
+                //     last_update,
+                // }))
+                // setExpanded(false)
+                onNext()
+                toast.success('اطلاعات با موفقیت ثبت شد')
+            } catch (error) {
+                console.error('اطلاعات ثبت نشد', error);
+            }
+        } else {
+            toast.error('لطفا فیلدهای ضروری را پر کنید')
 
+        }
+
+    }
+    const renderFooters = () => {
+
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'row-reverse', my: 8 }}>
+                <Button type='submit'
+                    variant='contained'
+                    color={'success'}
+                    onClick={submits}
+                >
+                    {'تایید و ارسال'}
+                </Button>
+            </Box>
+        )
+    }
     const Accordion = styled(MuiAccordion)<AccordionProps>(({ theme }) => ({
         margin: 0,
         borderRadius: 0,
@@ -270,7 +322,7 @@ const EducationStep = ({ allPosts, steps, isEdit, isLoading, onNext, }: any) => 
     }
     const expandIcon = (value: string) => <Icon icon={expanded === value ? 'tabler:minus' : 'tabler:plus'} />
 
-    return (
+    return (<>
         <Accordion expanded={expanded === 'panel3'} onChange={handleChangeA('panel3')}>
             <AccordionSummary
                 id='customized-panel-header-3'
@@ -298,6 +350,8 @@ const EducationStep = ({ allPosts, steps, isEdit, isLoading, onNext, }: any) => 
                 </FormProvider>
             </AccordionDetails>
         </Accordion>
+        {renderFooters()}
+    </>
     )
 }
 

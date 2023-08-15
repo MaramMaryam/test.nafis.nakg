@@ -28,14 +28,13 @@ import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import CustomTable from 'src/@core/components/tables/BasicTables'
 import { GridProps } from '@mui/system'
 import { preventOverflow } from '@popperjs/core'
-import {nanoid} from 'nanoid'
+import { nanoid } from 'nanoid'
 
-const CompeleteStep = ({ steps, isEdit, isLoading, onNext,  }: any) => {
-    const theme = useTheme()
+const CompeleteStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
     const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
-    console.log( data, steps)
-    const [compeleteDatas, setCompeleteData] = useState<any>()
-const [rowId, setRowId] = useState<any>()
+    console.log(data?.data?.step2?.step1, steps)
+    const [compeleteData, setCompeleteData] = useState<any>([])
+    const [rowId, setRowId] = useState<any>()
 
     const renderFooter = () => {
 
@@ -51,23 +50,20 @@ const [rowId, setRowId] = useState<any>()
         )
     }
     const last_update = new Date()
-    const defaultValues = 
-    useMemo(
-        () => ({
-            id: '',
-            //   activeStep, 
-            last_update,
-            name: '',
-            nesbat: '',
-            job: '',
-            address: '',
-            tel: '',
-            // action: renderDelete(),
-            // delete: ''
-            // renderDelete()
-        }),
-        []
-    );
+
+    const defaultValues =
+        useMemo(
+            () => ({
+                id: '',
+                last_update,
+                name: '',
+                nesbat: '',
+                job: '',
+                address: '',
+                tel: '',
+            }),
+            []
+        );
     const rows: GridRowsProp = [
         {
             id: 1,
@@ -86,7 +82,7 @@ const [rowId, setRowId] = useState<any>()
         { field: 'job', headerName: 'شغل', width: 110 },
         { field: 'address', headerName: 'آدرس محل سکونت', width: 110 },
         { field: 'tel', headerName: 'تلفن', width: 110 },
-          { 
+        {
             field: 'action',
             headerName: 'عملیات',
             // renderCell: (params) => {
@@ -94,38 +90,25 @@ const [rowId, setRowId] = useState<any>()
             //     console.log(id, field, formattedValue)
             //     // Use props for customization
             //   }
-            },
-            // {
-            //     field: 'delete',
-            //     headerName: 'Delete',
-            //     renderCell: (params) => {
-            //       const id = params.row.id;
-              
-            //       return (<Button onClick={() => onDelete(id)}>Delete{id}</Button> )
-            //     }
-            //   }
+        },
+        // {
+        //     field: 'delete',
+        //     headerName: 'Delete',
+        //     renderCell: (params) => {
+        //       const id = params.row.id;
+
+        //       return (<Button onClick={() => onDelete(id)}>Delete{id}</Button> )
+        //     }
+        //   }
     ];
     const [row, setRow] = useState<any>(rows);
     console.log(row)
-    useEffect(()=>{
+    useEffect(() => {
         console.log(rowId)
-    if(data){
-        console.log(data,compeleteDatas)
-    }
-    },[])
-    async function getApiData() {
-        const res = await fetch('/api/getInfos', { method: 'GET' });
-        const data = await res.json();
-        console.log(...data, ...row)
         if (data) {
-            setData((prev: any) => ({
-                ...prev,
-                data,
-        }))
-    console.log(...data, ...row)
-        setRow((prevRows:any) => [...prevRows, ...data]); 
+            console.log(data, compeleteData)
         }
-    }
+    }, [])
 
     const showErrors = (field: string, valueLen: number, min: number) => {
         if (valueLen === 0) {
@@ -160,31 +143,32 @@ const [rowId, setRowId] = useState<any>()
         formState: { isSubmitting, errors },
     } = methods
 
-    const onSubmit = async (compeleteData:any) => {
-        console.log(row,'compeleteData:',compeleteData,row, compeleteData.id)
+    const onSubmit = async (compeleteData: any) => {
+        console.log(row, 'compeleteData:', compeleteData, row, compeleteData.id)
         compeleteData.id = nanoid(),
-        console.log(row,'compeleteData:',compeleteData,row, compeleteData.id)
-        const compeleteDatas={
-            ...compeleteData, 
+            console.log(row, 'compeleteData:', compeleteData, row, compeleteData.id)
+        const compeleteDatas = {
+            ...compeleteData,
             id: nanoid(),
-            action:  <Box sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
-            <Button 
-            // type='submit'
-            onClick={() => {console.log(compeleteDatas.id)
-                setRow((rows:any) => rows.filter((row:any) => row.id !== compeleteDatas.id))}}
-                variant='contained'
-                color={'error'}
-            >
-                {'-'}
-            </Button>
-        </Box>
+            action: <Box sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                <Button
+                    onClick={() => {
+                        console.log(compeleteDatas.id)
+                        setRow((rows: any) => rows.filter((row: any) => row.id !== compeleteDatas.id))
+                    }}
+                    variant='contained'
+                    color={'error'}
+                >
+                    {'-'}
+                </Button>
+            </Box>
         }
         console.log(compeleteDatas)
-       
-        setCompeleteData(compeleteDatas)
-        // setData((prev:any)=> [...prev, compeleteDatas] )
-        setRow((prev:any)=>[...prev, compeleteDatas]); 
-        // setRowId((prev:any)=>compeleteDatas.id)
+        setRow((prev: any) => [...prev, compeleteDatas]);
+        setData((prev: any) => (
+            { step1: [...row.slice(1), compeleteDatas] }
+        ))
+        onNext()
     };
 
     const Accordion = styled(MuiAccordion)<AccordionProps>(({ theme }) => ({
@@ -284,17 +268,3 @@ const [rowId, setRowId] = useState<any>()
 }
 
 export default CompeleteStep
-
-// export async function getServerSideProps(context:any) {
-//     let res = await fetch("http://localhost:3000/api/infos", {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     let allPosts = await res.json();
-  
-//     return {
-//       props: { allPosts },
-//     };
-//   }

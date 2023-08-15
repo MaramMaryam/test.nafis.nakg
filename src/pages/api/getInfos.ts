@@ -28,14 +28,9 @@ export default async function handler(req: any, res: any) {
       const database = client.db(databaseName);
       const collection = database.collection(collectionName as any);
       const data = await collection.findOne()
-
-      // const datas = await collection.findOne({userId:userId})
       const datas = await collection.find({}).toArray()
-
-      // await collection.findOneAndDelete({})
-
       console.log(data)
-      res.status(200).json(datas);
+      res.status(200).json(data);
     } catch (error) {
       console.error('Error retrieving data from MongoDB:', error);
       res.status(500).json({ message: 'Internal server error' });
