@@ -21,7 +21,7 @@ import MuiAccordion, { AccordionProps } from '@mui/material/Accordion'
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary'
 import MuiAccordionDetails, { AccordionDetailsProps } from '@mui/material/AccordionDetails'
 
-const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
+const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
     const maritalStatusArray = ['مجرد', 'متاهل', 'متارکه']
     const housingStatusArray = ['استیجاری', 'شخصی']
     const [maritalStatus, setMaritalStatus] = useState<string[]>([])
@@ -71,7 +71,6 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
     const methods = useForm({
         resolver: yupResolver(schema),
         defaultValues,
-        mode: "onBlur"
     });
 
     const {
@@ -81,8 +80,29 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
 
     const onSubmit = async (personalData: any) => {
         console.log(personalData)
-        setExpanded(false)
-        toast.success('اطلاعات با موفقیت ثبت شد')
+        try {
+            const res = await fetch("/api/infos", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    step: 0,
+                    data: personalData
+                }),
+            })
+            setData((prev: any) => ({
+                ...prev, ...data,
+                step: 0,
+                step0: personalData,
+                last_update,
+            }))
+            setExpanded(false)
+            onNext()
+            toast.success('اطلاعات با موفقیت ثبت شد')
+        } catch (error) {
+            console.error('اطلاعات ثبت نشد', error);
+        }
     };
     const renderFooter = () => {
 
@@ -104,7 +124,6 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any) => {
             </Box>
         )
     }
-
 
     // Styled component for Accordion component
     const Accordion = styled(MuiAccordion)<AccordionProps>(({ theme }) => ({

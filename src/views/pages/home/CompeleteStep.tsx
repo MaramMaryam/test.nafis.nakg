@@ -30,35 +30,13 @@ import { GridProps } from '@mui/system'
 import { preventOverflow } from '@popperjs/core'
 import {nanoid} from 'nanoid'
 
-const CompeleteStep = ({ allPosts, steps, isEdit, isLoading, onNext,  }: any) => {
+const CompeleteStep = ({ steps, isEdit, isLoading, onNext,  }: any) => {
     const theme = useTheme()
-    console.log(allPosts)
     const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
-    console.log( data?.data, data, steps)
+    console.log( data, steps)
     const [compeleteDatas, setCompeleteData] = useState<any>()
 const [rowId, setRowId] = useState<any>()
-function onDelete(id:any) {
-    // delete row with id
-    setRow(row.filter((row:any) => row.id !== id));
-  }
-   
 
-    const renderDelete = (params?:any) => {
-
-        return (
-            <Box sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
-                <Button 
-                // type='submit'
-                onClick={() => console.log(rows.filter((row:any) => row.id !== rowId))}
-                // onChange={deleteRow}
-                    variant='contained'
-                    color={'error'}
-                >
-                    {'-'}
-                </Button>
-            </Box>
-        )
-    }
     const renderFooter = () => {
 
         return (
