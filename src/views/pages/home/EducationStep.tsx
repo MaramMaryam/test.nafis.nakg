@@ -30,8 +30,7 @@ import RHFDateField from 'src/@core/components/hook-form/RHFDateField'
 import { formatDate } from 'src/@core/utils/format'
 import format from 'date-fns/format';
 
-const EducationStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
-    const theme = useTheme()
+const EducationStep = ({ steps, onNext, }: any) => {
     const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
     console.log(data?.data, data, data?.step1, steps)
     const [edueDatas, setEduData] = useState<any>([])
@@ -172,21 +171,23 @@ const EducationStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
 
     const onSubmit = async (edueData: any) => {
         console.log(row, 'edueData:', edueData, row, edueData.id)
-        console.log(formatDate(edueData.fromDate))
-
         edueData.id = nanoid(),
             console.log(row, 'edueData:', edueData, row, edueData.id)
         const edueDatas = {
             ...edueData,
             id: nanoid(),
-            fromDate: format(edueData.fromDate, 'MM/dd/yyyy'),
-            toDate: format(edueData.toDate, 'MM/dd/yyyy'),
+            fromDate: format(edueData?.fromDate, 'MM/dd/yyyy') ?? new Date(),
+            toDate: format(edueData?.toDate, 'MM/dd/yyyy') ?? new Date(),
             action: <Box sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
                 <Button
-                    // type='submit'
                     onClick={() => {
-                        console.log(edueData.id)
                         setRow((rows: any) => rows.filter((row: any) => row.id !== edueDatas.id))
+                        setData((prev: any) => {
+                            return {
+                                step1: prev.step1,
+                                step2: prev.step2.filter((item:any) => item.id !== edueDatas.id),
+                            }
+                        })
                     }}
                     variant='contained'
                     color={'error'}
@@ -195,19 +196,11 @@ const EducationStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
                 </Button>
             </Box>
         }
-        console.log(edueDatas)
-
         setEduData(edueDatas)
         setRow((prev: any) => [...prev, edueDatas]);
         setData((prev: any) => (
             { ...prev, step2: [...row.slice(1), edueDatas] }
         ))
-        // setData((prev: any) => ({
-        //     ...prev, ...data,
-        //     step: 2,
-        //     step2: edueDatas,
-        //     last_update,
-        // }))
         onNext()
     };
     console.log(edueDatas.length)
@@ -225,13 +218,6 @@ const EducationStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
                         data: data
                     }),
                 })
-                // setData((prev: any) => ({
-                //     ...prev, ...data,
-                //     step: 2,
-                //     step2: edueDatas,
-                //     last_update,
-                // }))
-                // setExpanded(false)
                 onNext()
                 toast.success('اطلاعات با موفقیت ثبت شد')
             } catch (error) {
@@ -239,7 +225,6 @@ const EducationStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
             }
         } else {
             toast.error('لطفا فیلدهای ضروری را پر کنید')
-
         }
 
     }

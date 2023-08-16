@@ -33,7 +33,7 @@ import { nanoid } from 'nanoid'
 const CompeleteStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
     const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
     console.log(data?.data?.step2?.step1, steps)
-    const [compeleteData, setCompeleteData] = useState<any>([])
+    const [compeleteDatah, setCompeleteData] = useState<any>([])
     const [rowId, setRowId] = useState<any>()
 
     const renderFooter = () => {
@@ -106,7 +106,7 @@ const CompeleteStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
     useEffect(() => {
         console.log(rowId)
         if (data) {
-            console.log(data, compeleteData)
+            console.log(data, compeleteDatah, data?.data?.step2?.step1)
         }
     }, [])
 
@@ -147,14 +147,24 @@ const CompeleteStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
         console.log(row, 'compeleteData:', compeleteData, row, compeleteData.id)
         compeleteData.id = nanoid(),
             console.log(row, 'compeleteData:', compeleteData, row, compeleteData.id)
+
+        // const deletedDatas = {
+        //     ...compeleteData,
+        //     id: rows.filter((row: any) => row.id !== compeleteDatas.id)
+        // }
         const compeleteDatas = {
             ...compeleteData,
             id: nanoid(),
             action: <Box sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
                 <Button
                     onClick={() => {
-                        console.log(compeleteDatas.id)
                         setRow((rows: any) => rows.filter((row: any) => row.id !== compeleteDatas.id))
+                        console.log(data, row, data?.data?.step2?.step1, row.slice(1), compeleteDatas, compeleteData)
+                        setData((prev: any) => {
+                            return {
+                                step1: prev.step1.filter((item:any) => item.id !== compeleteDatas.id)
+                            }
+                        })
                     }}
                     variant='contained'
                     color={'error'}
@@ -163,7 +173,9 @@ const CompeleteStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
                 </Button>
             </Box>
         }
-        console.log(compeleteDatas)
+
+        setCompeleteData(compeleteDatas)
+        console.log(compeleteDatas, compeleteDatah)
         setRow((prev: any) => [...prev, compeleteDatas]);
         setData((prev: any) => (
             { step1: [...row.slice(1), compeleteDatas] }

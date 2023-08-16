@@ -26,7 +26,7 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
     const housingStatusArray = ['استیجاری', 'شخصی']
     const [maritalStatus, setMaritalStatus] = useState<string[]>([])
     const [housingStatus, setHousingStatus] = useState<string[]>([])
-    const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
+    const { data, setData, } = useContext<any>(UserContext);
     console.log(data?.data?.step0, data?.data?.step0?.email)
     const showErrors = (field: string, valueLen: number, min: number) => {
         if (valueLen === 0) {
@@ -206,7 +206,6 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
                 <Typography sx={{ ml: 2, color: 'red' }}>🚀مشخصات فردی</Typography>
             </AccordionSummary>
             <AccordionDetails>
-
                 <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={4}>
                         <Grid item xs={12} md={6}>
