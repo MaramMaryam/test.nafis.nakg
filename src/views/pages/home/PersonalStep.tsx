@@ -81,16 +81,16 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
     const onSubmit = async (personalData: any) => {
         console.log(personalData)
         try {
-            const res = await fetch("/api/infos", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    step: 0,
-                    data: personalData
-                }),
-            })
+            // const res = await fetch("/api/infos", {
+            //     method: "POST",
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         step: 0,
+            //         data: personalData
+            //     }),
+            // })
             setData((prev: any) => ({
                 ...prev, ...data,
                 step: 0,

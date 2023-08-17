@@ -13,19 +13,19 @@ const Home = ({ datas }: any) => {
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
-  useEffect(() => {
-    async function getApiData() {
-      const res = await fetch('/api/getInfos', { method: 'GET' });
-      const data = await res.json();
-      if (data) {
-        setData((prev: any) => ({ ...prev, data: data }));
-      }
-      console.log(data)
-    }
+  // useEffect(() => {
+  //   async function getApiData() {
+  //     const res = await fetch('/api/getInfos', { method: 'GET' });
+  //     const data = await res.json();
+  //     if (data) {
+  //       setData((prev: any) => ({ ...prev, data: data }));
+  //     }
+  //     console.log(data)
+  //   }
 
-    getApiData();
-  }, [setData]);
-  console.log(data)
+  //   getApiData();
+  // }, [setData]);
+  // console.log(data)
 
   return (
     <Grid container spacing={6}  >

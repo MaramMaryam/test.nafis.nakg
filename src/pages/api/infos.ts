@@ -16,7 +16,7 @@ const options: any = {
 export default async function handler(req: any, res: any) {
 
     if (req.method === 'POST') {
-        const {step, data} = req.body;
+        const { step, data } = req.body;
 
         const client = new MongoClient(uri, options);
         try {
@@ -24,16 +24,17 @@ export default async function handler(req: any, res: any) {
 
             const database = client.db(databaseName);
             const collection = database.collection(collectionName as any);
-            if (!data) {
-                // Save profile data for the specific step
-                await collection.insertOne({ userId: '999' }, {[`step${step}`]: data });
-            } else {
-                await collection.updateOne(
-                    { userId: '999' }, // Replace with user ID or unique identifier
-                    { $set: { [`step${step}`]: data } },
-                    { upsert: true }
-                );
-            }
+            // if (!data) {
+            // Save profile data for the specific step
+            await collection.insertOne({ [`step${step}`]: data });
+            // }
+            // else {
+            //     await collection.updateOne(
+            //         { userId: '999' }, // Replace with user ID or unique identifier
+            //         { $set: { [`step${step}`]: data } },
+            //         { upsert: true }
+            //     );
+            // }
             // res.json(myPost.ops[0]);
             // const savedData = await collection.find({})
             // res.status(201).json(savedData)

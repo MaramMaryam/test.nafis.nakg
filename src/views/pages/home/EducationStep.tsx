@@ -29,6 +29,7 @@ import { nanoid } from 'nanoid'
 import RHFDateField from 'src/@core/components/hook-form/RHFDateField'
 import { formatDate } from 'src/@core/utils/format'
 import format from 'date-fns/format';
+import { useRouter } from 'next/router'
 
 const EducationStep = ({ steps, onNext, }: any) => {
     const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
@@ -37,7 +38,7 @@ const EducationStep = ({ steps, onNext, }: any) => {
     const [rowId, setRowId] = useState<any>()
     const gradeArray = ['دیپلم', 'فوق دیپلم', 'لیسانس', 'فوق لیسانس', 'دکتری و بالاتر']
     const fieldArray = ['نرم افزار', 'شبکه', 'آی تی', 'سخت افزار', 'برنامه نویسی']
-
+    const router = useRouter()
     const renderFooter = () => {
 
         return (
@@ -185,7 +186,7 @@ const EducationStep = ({ steps, onNext, }: any) => {
                         setData((prev: any) => {
                             return {
                                 step1: prev.step1,
-                                step2: prev.step2.filter((item:any) => item.id !== edueDatas.id),
+                                step2: prev.step2.filter((item: any) => item.id !== edueDatas.id),
                             }
                         })
                     }}
@@ -219,6 +220,7 @@ const EducationStep = ({ steps, onNext, }: any) => {
                     }),
                 })
                 onNext()
+                router.push('/user-info')
                 toast.success('اطلاعات با موفقیت ثبت شد')
             } catch (error) {
                 console.error('اطلاعات ثبت نشد', error);

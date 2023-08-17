@@ -33,7 +33,7 @@ const AppBarContent = (props: Props) => {
           </IconButton>
         ) : null}
         <Typography fontSize={18}>
-          نفیس نخ
+          نام پروژه
         </Typography>
 
       </Box>

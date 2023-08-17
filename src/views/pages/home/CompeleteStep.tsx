@@ -32,7 +32,7 @@ import { nanoid } from 'nanoid'
 
 const CompeleteStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
     const { data, setData, activeStep, setActiveStep } = useContext<any>(UserContext);
-    console.log(data?.data?.step2?.step1, steps)
+    console.log(data?.data?.step2?.step1, steps, data?.step0)
     const [compeleteDatah, setCompeleteData] = useState<any>([])
     const [rowId, setRowId] = useState<any>()
 
@@ -178,7 +178,7 @@ const CompeleteStep = ({ steps, isEdit, isLoading, onNext, }: any) => {
         console.log(compeleteDatas, compeleteDatah)
         setRow((prev: any) => [...prev, compeleteDatas]);
         setData((prev: any) => (
-            { step1: [...row.slice(1), compeleteDatas] }
+            { step1: [...row.slice(1), compeleteDatas],step0: data?.step0 }
         ))
         onNext()
     };
