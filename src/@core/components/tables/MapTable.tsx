@@ -2,14 +2,19 @@
 import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Collapse, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
-export default function CustomTable({ columns, rows, onDelete, data }: any) {
+export default function MapTable({ columns, onDelete, data }: any) {
     const [selectedRow, setSelectedRow] = useState<any>();
     function handleRowClick(row: any) {
         console.log(row); // clicked row
     }
     function RowDetails({ selectedRow }: any) {
         return (
-            <div>{selectedRow}</div>
+            <>
+                Email: {selectedRow.email}
+
+                {selectedRow.step1.map((item: any) => (
+                    <div>{item.name}</div>
+                ))}</>
         );
     }
     const [expandedRowId, setExpandedRowId] = useState(null);
@@ -17,6 +22,7 @@ export default function CustomTable({ columns, rows, onDelete, data }: any) {
     const toggleDetails = (rowId: any) => {
         setExpandedRowId((prevRowId) => (prevRowId === rowId ? null : rowId));
     };
+
     return (
         <TableContainer component={Paper}>
             <Table border={1} sx={{ border: '1px solid lightgrey' }}>
@@ -31,25 +37,15 @@ export default function CustomTable({ columns, rows, onDelete, data }: any) {
                 </TableHead>
 
                 <TableBody>
-                    {rows?.map((row: any, index: any) => (
-                        <React.Fragment key={row.id}>
-                            <TableRow selected={selectedRow === row} onClick={() => { toggleDetails(row.id); setSelectedRow(row) }}  >
-                                {columns?.map((column: any) => (
-                                    <TableCell key={column.field} id={row.id} align='right' onClick={() => { handleRowClick(row.id); }}>
-                                        {row[column?.field]}
-
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                            <TableRow>
-                                {/* <TableCell colSpan={2}> */}
-                                <Collapse in={expandedRowId === row.id}>
-                                    <Typography>{row.id}</Typography>
-                                </Collapse>
-                                {/* </TableCell> */}
-                            </TableRow>
-                        </React.Fragment>
+                    {data.map((row: any) => (
+                        <TableRow onClick={() => setSelectedRow(row)}>
+                            {row.map((cell: any) => (
+                                <TableCell>{row[cell?.field]}</TableCell>
+                            ))}
+                        </TableRow>
                     ))}
+
+
                 </TableBody>
             </Table>
             {selectedRow && <RowDetails row={selectedRow} />}

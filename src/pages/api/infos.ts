@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import { nanoid } from 'nanoid';
 
 
 if (!process.env.MONGODB_URI) {
@@ -17,7 +18,7 @@ export default async function handler(req: any, res: any) {
 
     if (req.method === 'POST') {
         const { step, data } = req.body;
-
+        const userId:any = nanoid()
         const client = new MongoClient(uri, options);
         try {
             await client.connect();
@@ -26,7 +27,7 @@ export default async function handler(req: any, res: any) {
             const collection = database.collection(collectionName as any);
             // if (!data) {
             // Save profile data for the specific step
-            await collection.insertOne({ [`step${step}`]: data });
+            await collection.insertOne({ [`step${step}`]: data, userId } );
             // }
             // else {
             //     await collection.updateOne(

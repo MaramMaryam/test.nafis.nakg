@@ -215,7 +215,6 @@ const EducationStep = ({ steps, onNext, }: any) => {
                     },
                     body: JSON.stringify({
                         step: 2,
-                        // step1: data?.step1,
                         data: data
                     }),
                 })

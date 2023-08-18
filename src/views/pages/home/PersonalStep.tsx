@@ -56,9 +56,11 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
         setMaritalStatus(typeof value === 'string' ? value.split(',') : value)
     }
     const last_update = new Date()
+    let i = 0
     const defaultValues = useMemo(
         () => ({
             last_update,
+            id: i,
             email: data?.data?.step0?.email ?? '',
             lastName: data?.data?.step0?.lastName ?? '',
             firstName: data?.data?.step0?.firstName ?? '',
@@ -80,6 +82,7 @@ const StepPersonalDetails = ({ steps, isEdit, isLoading, onNext }: any,) => {
 
     const onSubmit = async (personalData: any) => {
         console.log(personalData)
+        personalData.id = i + 1;
         try {
             // const res = await fetch("/api/infos", {
             //     method: "POST",

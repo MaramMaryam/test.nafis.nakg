@@ -28,7 +28,7 @@ export default async function handler(req: any, res: any) {
       const database = client.db(databaseName);
       const collection = database.collection(collectionName as any);
       const data = await collection.find()
-      const datas = await collection.find({}).toArray()
+      const datas = await collection.find().toArray()
       console.log(datas)
       res.status(200).json(datas);
     } catch (error) {
