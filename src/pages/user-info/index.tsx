@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid'
 import { useContext, useEffect } from 'react'
 import UserContext from 'src/@core/context/userContext'
 import CustomTable from 'src/@core/components/tables/BasicTables'
-import TableCollapsible from 'src/@core/components/tables/CollapsableTable'
 import MapTable from 'src/@core/components/tables/MapTable'
 
 const UserInfo = ({ datas, row }: any) => {
@@ -85,9 +84,7 @@ const UserInfo = ({ datas, row }: any) => {
     <Grid container spacing={6} >
       <Grid item xs={12} mb={5}>
         <Card>
-      <MapTable data={flats} columns={colpersonal}/>
-
-          {/* <CustomTable columns={colpersonal} rows={s0} /> */}
+          <MapTable data={flats} columns={colpersonal} />
         </Card>
       </Grid>
       <Grid item xs={12} mb={5}>
@@ -95,7 +92,7 @@ const UserInfo = ({ datas, row }: any) => {
       </Grid>
       <Grid item xs={12} mb={5}>
         <CustomTable columns={coledu} rows={s2} />
-      </Grid>     
+      </Grid>
     </Grid>
   )
 }
