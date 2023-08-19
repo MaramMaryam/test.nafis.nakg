@@ -74,10 +74,10 @@ const UserInfo = ({ datas, row }: any) => {
     { field: 'email', headerName: 'ایمیل', width: 110 },
     { field: 'code', headerName: 'کدملی', width: 110 },
     { field: 'bitrthDate', headerName: 'تاریخ تولد', width: 110 },
-    {
-      field: 'action',
-      headerName: 'عملیات',
-    },
+    // {
+    //   field: 'action',
+    //   headerName: 'عملیات',
+    // },
   ];
 
   return (
