@@ -7,11 +7,7 @@ export default function CustomTable({ columns, rows, onDelete, data }: any) {
     function handleRowClick(row: any) {
         console.log(row); // clicked row
     }
-    function RowDetails({ selectedRow }: any) {
-        return (
-            <div>{selectedRow}</div>
-        );
-    }
+
     const [expandedRowId, setExpandedRowId] = useState(null);
 
     const toggleDetails = (rowId: any) => {
@@ -33,26 +29,23 @@ export default function CustomTable({ columns, rows, onDelete, data }: any) {
                 <TableBody>
                     {rows?.map((row: any, index: any) => (
                         <React.Fragment key={row.id}>
-                            <TableRow selected={selectedRow === row} onClick={() => { toggleDetails(row.id); setSelectedRow(row) }}  >
+                            <TableRow selected={selectedRow === row} onClick={() => { toggleDetails(row.id); setSelectedRow(row); console.log(row, expandedRowId) }}  >
                                 {columns?.map((column: any) => (
-                                    <TableCell key={column.field} id={row.id} align='right' onClick={() => { handleRowClick(row.id); }}>
+                                    <TableCell key={column.field} id={row.id} align='right' onClick={() => { handleRowClick(row) }}>
                                         {row[column?.field]}
-
                                     </TableCell>
                                 ))}
                             </TableRow>
-                            <TableRow>
-                                {/* <TableCell colSpan={2}> */}
+                            {/* <TableRow>
                                 <Collapse in={expandedRowId === row.id}>
-                                    <Typography>{row.id}</Typography>
+                                    <Typography>{row}</Typography>
                                 </Collapse>
-                                {/* </TableCell> */}
-                            </TableRow>
+                            </TableRow> */}
                         </React.Fragment>
                     ))}
                 </TableBody>
             </Table>
-            {selectedRow && <RowDetails row={selectedRow} />}
+            {/* {selectedRow && <RowDetails row={selectedRow} />} */}
         </TableContainer >
     );
 }
